@@ -1,14 +1,14 @@
 // @ts-check
 
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 // const isDevelopment = !isProduction;
 console.log('isProduction', isProduction);
+console.log(__dirname);
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   entry: [
-    `${__dirname}/src/index.js`,
+    `${__dirname}/src/index.jsx`,
   ],
   externals: {
     gon: 'gon',
@@ -20,9 +20,6 @@ module.exports = {
     path: `${__dirname}/dist/public`,
     publicPath: '/assets/',
   },
-  plugins: [
-    // new MiniCssExtractPlugin(),
-  ],
   module: {
     rules: [
       {
@@ -31,14 +28,11 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.s[ac]ss$/i,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'postcss-loader' },
-          { loader: 'sass-loader' },
-        ],
+        test: /\.s[ac]ss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
+  plugins: [
+  ],
 };
