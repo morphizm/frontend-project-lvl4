@@ -1,4 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+
+const mapStateToProps = (state) => {
+  const { channels: { allIds, byId } } = state;
+  const channels = allIds.map((id) => byId[id]);
+  return { channels };
+};
+
+const actionCreators = {
+};
 
 const renderChannel = (channel) => {
   const {
@@ -16,9 +27,7 @@ const renderChannel = (channel) => {
   return vdom;
 };
 
-const Channels = () => {
-  const { channels } = gon;
-  console.log(channels);
+const Channels = ({ channels }) => {
   const vdom = (
     <div className="card" style={{ width: '18rem' }}>
       <div className="card-header">
@@ -33,4 +42,4 @@ const Channels = () => {
   return vdom;
 };
 
-export default Channels;
+export default connect(mapStateToProps, actionCreators)(Channels);

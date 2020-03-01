@@ -1,10 +1,12 @@
 import React from 'react';
 import Channels from './Channels';
+import Messages from './Messages';
 
 const App = () => {
   const vdom = (
-    <div>
+    <div className="flex">
       <Channels />
+      <Messages />
     </div>
   );
 
