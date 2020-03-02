@@ -1,10 +1,12 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/order */
-// @ts-check
 import React from 'react';
 import { render } from 'react-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
+import gon from 'gon';
+import faker from 'faker';
+import cookies from 'js-cookie';
+import io from 'socket.io-client';
+// import axios from 'axios';
 
 import reducers from './reducers';
 import App from './components/App';
@@ -16,21 +18,10 @@ import '../assets/application.scss';
 import {
   fetchChannels, fetchMessages, fetchCurrentChannelId, subscribeOnNewMessage,
 } from './actions';
-import routes from './routes';
-
-// @ts-ignore
-import gon from 'gon';
-import faker from 'faker';
-import cookies from 'js-cookie';
-import io from 'socket.io-client';
-import axios from 'axios';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
-
-// const ext = window.__REDUX_DEVTOOLS_EXTENSION__;
-// const devtoolMiddleware = ext && ext();
 
 console.log('gon', gon);
 console.log(cookies.get('name'));
