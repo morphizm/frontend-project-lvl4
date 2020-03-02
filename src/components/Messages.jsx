@@ -27,8 +27,13 @@ const renderMessage = (item) => {
 };
 
 const Messages = ({ messages }) => {
+  const style = {
+    minHeight: '75vh',
+    maxHeight: '75vh',
+  };
+
   const vdom = (
-    <div className="d-flex-column overflow-auto">
+    <div className="d-flex-column overflow-auto" style={style}>
       {messages.map(renderMessage)}
     </div>
   );

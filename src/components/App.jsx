@@ -5,7 +5,7 @@ import NewFormMessage from './NewFormMessage';
 
 const App = ({ user }) => {
   const vdom = (
-    <div className="d-flex">
+    <div className="d-flex min-vh-100 mh-100">
       <Channels />
       <div className="d-flex-column flex-fill m-2">
         <Messages />

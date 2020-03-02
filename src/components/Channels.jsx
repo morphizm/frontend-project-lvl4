@@ -35,9 +35,12 @@ const renderChannel = (channel, currentChannelId) => {
 
 const Channels = ({ channels, currentChannelId }) => {
   const vdom = (
-    <div className="card align-items-stretch" style={{ width: '18rem' }}>
+    <div className="card overflow-auto w-25">
       <div className="card-header">
         Channels:
+        <button type="button" className="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <ul className="list-group list-group-flush">
         {channels.map((c) => renderChannel(c, currentChannelId))}

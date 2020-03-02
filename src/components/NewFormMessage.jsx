@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Formik } from 'formik';
+import { Formik, Field, Form } from 'formik';
 import { sendMessage } from '../actions';
 
 const mapStateToProps = (state) => {
@@ -22,25 +22,30 @@ const NewFormMessage = (props) => {
     resetForm();
   };
 
+  const validateMessage = (message) => {
+    if (!message) {
+      return 'Required';
+    }
+    return null;
+  };
+
   const vdom = (
     <Formik initialValues={{ message: '' }} onSubmit={handleSendMessage}>
-      {(p) => (
-        <form onSubmit={p.handleSubmit} className="form-row">
+      {() => (
+        <Form className="form-row">
           <div className="form-group col-11">
-            <input
+            <Field
               className="form-control"
               type="text"
-              onChange={p.handleChange}
-              onBlur={p.handleBlur}
-              value={p.values.message}
+              validate={validateMessage}
               name="message"
               placeholder="Message"
             />
           </div>
           <div>
-            <button disabled={p.isSubmitting} className="btn btn-primary" type="submit">Send</button>
+            <button className="btn btn-primary" type="submit">Send</button>
           </div>
-        </form>
+        </Form>
       )}
     </Formik>
   );
