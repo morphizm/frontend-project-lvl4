@@ -11,18 +11,8 @@ const channels = createReducer({ byId: {}, allIds: [] }, {
   },
 });
 
-const users = createReducer({ byId: {}, allIds: [] }, {
-  [actions.loadUser](state, action) {
-    const { name, id } = action.payload;
-    return {
-      byId: { ...state.byId, [id]: { name } },
-      allIds: [...state.allIds, id],
-    };
-  },
-});
-
 const messages = createReducer({ byId: {}, allIds: [] }, {
-  [actions.fetchMessage](state, { payload }) {
+  [actions.fetchMessageSuccess](state, { payload }) {
     const { message } = payload;
     const { id } = message;
     return {
@@ -30,7 +20,7 @@ const messages = createReducer({ byId: {}, allIds: [] }, {
       allIds: [...state.allIds, id],
     };
   },
-  [actions.fetchMessages](state, { payload }) {
+  [actions.fetchMessagesSuccess](state, { payload }) {
     return {
       byId: _.keyBy(payload.messages, 'id'),
       allIds: payload.messages.map((c) => c.id),
@@ -45,5 +35,5 @@ const currentChannelId = createReducer(null, {
 });
 
 export default {
-  channels, users, messages, currentChannelId,
+  channels, messages, currentChannelId,
 };

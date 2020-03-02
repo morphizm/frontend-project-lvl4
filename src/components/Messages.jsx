@@ -12,16 +12,24 @@ const mapStateToProps = (state) => {
 const actionCreators = {
 };
 
-const renderMessage = (message) => {
+const renderMessage = (item) => {
+  const {
+    userName, message, id,
+  } = item;
 
+  const vdom = (
+    <div key={id} className="d-flex-column">
+      <h6>{userName}</h6>
+      <p className="px-2">{message}</p>
+    </div>
+  );
+  return vdom;
 };
 
 const Messages = ({ messages }) => {
-
-
   const vdom = (
-    <div className="card">
-      0
+    <div className="d-flex-column overflow-auto">
+      {messages.map(renderMessage)}
     </div>
   );
 

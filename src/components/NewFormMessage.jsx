@@ -1,53 +1,48 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
+import { sendMessage } from '../actions';
 
 const mapStateToProps = (state) => {
-  const { messages: { allIds, byId }, currentChannelId } = state;
-  const messages = allIds
-    .map((id) => byId[id])
-    .filter((mes) => mes.channelId === currentChannelId);
-  return { messages };
+  const { currentChannelId } = state;
+  return { currentChannelId };
 };
 
 const actionCreators = {
-
+  sendMessage,
 };
 
 
-const NewFormMessage = () => {
-  const sendMessage = async (values, actions) => {
-    // actions.setSubmitting(true);
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      actions.setSubmitting(false);
-    }, 1000);
+const NewFormMessage = (props) => {
+  const { currentChannelId, user } = props;
+  const handleSendMessage = async (values, actions) => {
+    console.log(actions, values);
+    const { resetForm } = actions;
+    await props.sendMessage({ ...values, userName: user.name, channelId: currentChannelId });
+    resetForm();
   };
 
   const vdom = (
-    <div className="">
-      {/* <ul className="list-group list-group-flush"> */}
-      {/* </ul> */}
-      <Formik initialValues={{ message: '' }} onSubmit={sendMessage}>
-        {(props) => (
-          <form onSubmit={props.handleSubmit} className="form">
-            <div className="form-group col-11">
-              <input
-                className="form-control"
-                type="text"
-                onChange={props.handleChange}
-                onBlur={props.handleBlur}
-                value={props.values.message}
-                name="message"
-                placeholder="Message"
-              />
-            </div>
-
-            <button disabled={props.isSubmitting} className="btn btn-primary" type="submit">Send</button>
-          </form>
-        )}
-      </Formik>
-    </div>
+    <Formik initialValues={{ message: '' }} onSubmit={handleSendMessage}>
+      {(p) => (
+        <form onSubmit={p.handleSubmit} className="form-row">
+          <div className="form-group col-11">
+            <input
+              className="form-control"
+              type="text"
+              onChange={p.handleChange}
+              onBlur={p.handleBlur}
+              value={p.values.message}
+              name="message"
+              placeholder="Message"
+            />
+          </div>
+          <div>
+            <button disabled={p.isSubmitting} className="btn btn-primary" type="submit">Send</button>
+          </div>
+        </form>
+      )}
+    </Formik>
   );
 
   return vdom;

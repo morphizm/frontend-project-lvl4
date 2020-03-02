@@ -13,15 +13,17 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import '../assets/application.scss';
-import { addUser, fetchChannels, fetchMessages, fetchCurrentChannelId } from './actions';
-// import routes from './routes';
+import {
+  fetchChannels, fetchMessages, fetchCurrentChannelId, subscribeOnNewMessage,
+} from './actions';
+import routes from './routes';
 
 // @ts-ignore
 import gon from 'gon';
-// import faker from 'faker';
+import faker from 'faker';
 import cookies from 'js-cookie';
 import io from 'socket.io-client';
-// import axios from 'axios';
+import axios from 'axios';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -34,27 +36,28 @@ console.log('gon', gon);
 console.log(cookies.get('name'));
 const socket = io();
 
-socket.on('newMessage', (data) => {
-  console.log(data);
-});
-
-setTimeout(() => {
-  // axios.post(routes.channelMessagesPath(2),
-  // { data: { attributes: { message: '1', userName: 'Va',  }} })
-}, 3);
+const user = () => {
+  const userName = cookies.get('name');
+  if (userName) {
+    return { name: userName };
+  }
+  const newUserName = faker.name.findName();
+  cookies.set('name', newUserName);
+  return { name: newUserName };
+};
 
 const store = configureStore({
   reducer: reducers,
 });
 
-store.dispatch(addUser());
 store.dispatch(fetchChannels(gon));
 store.dispatch(fetchMessages(gon));
 store.dispatch(fetchCurrentChannelId(gon));
+store.dispatch(subscribeOnNewMessage(socket));
 
 render(
   <Provider store={store}>
-    <App />
+    <App user={user()} />
   </Provider>,
   document.getElementById('chat'),
 );

@@ -3,12 +3,14 @@ import Channels from './Channels';
 import Messages from './Messages';
 import NewFormMessage from './NewFormMessage';
 
-const App = () => {
+const App = ({ user }) => {
   const vdom = (
-    <div className="flex">
+    <div className="d-flex">
       <Channels />
-      <Messages />
-      <NewFormMessage />
+      <div className="d-flex-column flex-fill m-2">
+        <Messages />
+        <NewFormMessage user={user} />
+      </div>
     </div>
   );
 

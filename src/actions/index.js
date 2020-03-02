@@ -1,20 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
 import faker from 'faker';
-import cookies from 'js-cookie';
 import _ from 'lodash';
-
-export const loadUser = createAction('LOAD_USER');
-
-export const addUser = () => (dispatch) => {
-  const userName = cookies.get('name');
-  if (userName) {
-    dispatch(loadUser({ name: userName, id: _.uniqueId() }));
-  } else {
-    const newUserName = faker.name.findName();
-    cookies.set('name', newUserName);
-    dispatch(loadUser({ name: newUserName, id: _.uniqueId }));
-  }
-};
+import axios from 'axios';
+import routes from '../routes';
 
 export const fetchChannelsRequest = createAction('FETCH_CHANNELS_REQUEST');
 export const fetchChannelsSuccess = createAction('FETCH_CHANNELS_SUCCESS');
@@ -27,9 +15,8 @@ export const fetchChannels = (gon) => async (dispatch) => {
 
 export const fetchMessageSuccess = createAction('FETCH_MESSAGE_SUCCESS');
 
-export const fetchMessage = (gon) => async (dispatch) => {
-  
-};
+// export const fetchMessage = (gon) => async (dispatch) => {
+// };
 
 export const fetchMessagesSuccess = createAction('FETCH_MESSAGES_SUCCESS');
 
@@ -43,4 +30,20 @@ export const fetchCurrentChannelIdSuccess = createAction('FETCH_CURRENT_CHANNEL_
 export const fetchCurrentChannelId = (gon) => async (dispatch) => {
   const { currentChannelId } = gon;
   dispatch(fetchCurrentChannelIdSuccess({ currentChannelId }));
+};
+
+export const subscribeOnNewMessage = (socket) => async (dispatch) => {
+  socket.on('newMessage', ({ data }) => {
+    dispatch(fetchMessageSuccess({ message: data.attributes }));
+  });
+};
+
+export const sendMessage = (data) => async () => {
+  const { channelId } = data;
+  await axios.post(routes.channelMessagesPath(channelId), {
+    data: {
+      attributes: _.omit(data, 'channelId'),
+    },
+  });
+  // data: { attributes: { content: 'my dog like pit but a', userName: 'Fendk als' }} })
 };
