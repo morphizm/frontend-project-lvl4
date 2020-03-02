@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/order */
 // @ts-check
 import React from 'react';
@@ -12,13 +13,15 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import '../assets/application.scss';
-import { addUser, fetchChannels } from './actions';
+import { addUser, fetchChannels, fetchMessages, fetchCurrentChannelId } from './actions';
+// import routes from './routes';
 
 // @ts-ignore
 import gon from 'gon';
 // import faker from 'faker';
 import cookies from 'js-cookie';
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
+// import axios from 'axios';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -29,13 +32,25 @@ if (process.env.NODE_ENV !== 'production') {
 
 console.log('gon', gon);
 console.log(cookies.get('name'));
+const socket = io();
+
+socket.on('newMessage', (data) => {
+  console.log(data);
+});
+
+setTimeout(() => {
+  // axios.post(routes.channelMessagesPath(2),
+  // { data: { attributes: { message: '1', userName: 'Va',  }} })
+}, 3);
 
 const store = configureStore({
   reducer: reducers,
 });
 
 store.dispatch(addUser());
-store.dispatch(fetchChannels());
+store.dispatch(fetchChannels(gon));
+store.dispatch(fetchMessages(gon));
+store.dispatch(fetchCurrentChannelId(gon));
 
 render(
   <Provider store={store}>

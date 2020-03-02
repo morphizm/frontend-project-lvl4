@@ -22,7 +22,28 @@ const users = createReducer({ byId: {}, allIds: [] }, {
 });
 
 const messages = createReducer({ byId: {}, allIds: [] }, {
-
+  [actions.fetchMessage](state, { payload }) {
+    const { message } = payload;
+    const { id } = message;
+    return {
+      byId: { ...state.byId, [id]: message },
+      allIds: [...state.allIds, id],
+    };
+  },
+  [actions.fetchMessages](state, { payload }) {
+    return {
+      byId: _.keyBy(payload.messages, 'id'),
+      allIds: payload.messages.map((c) => c.id),
+    };
+  },
 });
 
-export default { channels, users, messages };
+const currentChannelId = createReducer(null, {
+  [actions.fetchCurrentChannelIdSuccess](state, { payload }) {
+    return payload.currentChannelId;
+  },
+});
+
+export default {
+  channels, users, messages, currentChannelId,
+};
