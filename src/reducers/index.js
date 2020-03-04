@@ -32,6 +32,9 @@ const currentChannelId = createReducer(null, {
   [actions.fetchCurrentChannelIdSuccess](state, { payload }) {
     return payload.currentChannelId;
   },
+  [actions.changeCurrentChannel](state, { payload }) {
+    return payload.id;
+  },
 });
 
 export default {

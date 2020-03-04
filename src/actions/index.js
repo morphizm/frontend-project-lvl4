@@ -47,3 +47,5 @@ export const sendMessage = (data) => async () => {
   });
   // data: { attributes: { content: 'my dog like pit but a', userName: 'Fendk als' }} })
 };
+
+export const changeCurrentChannel = createAction('CHANGE_CURRENT_CHANNEL');

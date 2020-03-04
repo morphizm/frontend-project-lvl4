@@ -9,9 +9,6 @@
   "directories": {
     "lib": "lib"
   },
-  "engines": {
-    "node": ">= 13"
-  },
   "scripts": {
     "test": "jest",
     "build-server": "babel server --out-dir dist --source-maps inline && cp -r server/views dist/views",
@@ -55,7 +52,6 @@
     "fastify-sensible": "^2.1.1",
     "fastify-static": "^2.6.0",
     "formik": "^2.1.4",
-    "html-webpack-plugin": "^3.2.0",
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.15",
