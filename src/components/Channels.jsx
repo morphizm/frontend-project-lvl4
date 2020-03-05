@@ -38,19 +38,19 @@ class Channels extends React.Component {
     // const Modal = getModal('adding');
 
     const vdom = (
-      <li
+      <div
         key={id}
         className={classAttributes}
-        // onClick={this.changeChannel(id)}
       >
-        {name}
+        <button className="btn" type="button" onClick={this.changeChannel(id)}>
+          {name}
+        </button>
         {!removable && (
           <button onClick={this.showModal} type="button" className="close">
             <span aria-hidden="true">&times;</span>
           </button>
         )}
-        <div />
-      </li>
+      </div>
     );
     return vdom;
   }
@@ -65,9 +65,9 @@ class Channels extends React.Component {
             <span aria-hidden="true">+</span>
           </button>
         </div>
-        <ul className="list-group list-group-flush">
+        <div className="list-group list-group-flush">
           {channels.map((c) => this.renderChannel(c, currentChannelId))}
-        </ul>
+        </div>
       </div>
     );
 

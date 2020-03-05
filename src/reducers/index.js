@@ -9,6 +9,27 @@ const channels = createReducer({ byId: {}, allIds: [] }, {
       allIds: payload.channels.map((c) => c.id),
     };
   },
+  [actions.fetchChannelSuccess](state, { payload }) {
+    const { channel } = payload;
+    return {
+      byId: { ...state.byId, [channel.id]: channel },
+      allIds: [...state.allIds, channel.id],
+    };
+  },
+  [actions.removeChannelSuccess](state, { payload }) {
+    const { id } = payload;
+    return {
+      byId: _.omit(state.byId, id),
+      allIds: _.without(state.allIds, id),
+    };
+  },
+  [actions.renameChannelSuccess](state, { payload }) {
+    const { channel } = payload;
+    return {
+      byId: { ...state.byId, [channel.id]: channel },
+      allIds: state.allIds,
+    };
+  },
 });
 
 const messages = createReducer({ byId: {}, allIds: [] }, {

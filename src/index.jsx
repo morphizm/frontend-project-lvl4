@@ -16,7 +16,8 @@ import 'regenerator-runtime/runtime';
 
 import '../assets/application.scss';
 import {
-  fetchChannels, fetchMessages, fetchCurrentChannelId, subscribeOnNewMessage,
+  setupState, subscribeOnNewMessage, subscribeOnNewChannel, subscribeOnDeleteChannel,
+  subscribeOnRenameChannel, renameChannel, sendNewChannel, removeChannel,
 } from './actions';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -41,10 +42,15 @@ const store = configureStore({
   reducer: reducers,
 });
 
-store.dispatch(fetchChannels(gon));
-store.dispatch(fetchMessages(gon));
-store.dispatch(fetchCurrentChannelId(gon));
+store.dispatch(setupState(gon));
 store.dispatch(subscribeOnNewMessage(socket));
+store.dispatch(subscribeOnNewChannel(socket));
+store.dispatch(subscribeOnDeleteChannel(socket));
+store.dispatch(subscribeOnRenameChannel(socket));
+
+// setTimeout(() => store.dispatch(sendNewChannel({ name: '?????'})), 30000)
+// setTimeout(() => store.dispatch(removeChannel({ id: '5'})), 3000)
+// setTimeout(() => store.dispatch(renameChannel({ id: '4', name: '000lslslls0112'})), 3000)
 
 render(
   <Provider store={store}>
