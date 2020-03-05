@@ -9,6 +9,9 @@
   "directories": {
     "lib": "lib"
   },
+  "engines": {
+    "node": ">= 13"
+  },
   "scripts": {
     "test": "jest",
     "build-server": "babel server --out-dir dist --source-maps inline && cp -r server/views dist/views",
