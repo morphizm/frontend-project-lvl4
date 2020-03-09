@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import cn from 'classnames';
+import { useClickAway } from 'react-use';
 import * as actions from '../actions';
 // import getModal from './modals';
 

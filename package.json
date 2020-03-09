@@ -67,6 +67,7 @@
     "pug": "^2.0.4",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
+    "react-use": "13.27.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
