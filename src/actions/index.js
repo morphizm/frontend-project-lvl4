@@ -41,7 +41,7 @@ export const subscribeOnRenameChannel = (socket) => async (dispatch) => {
   });
 };
 
-export const sendNewChannel = (data) => async () => {
+export const addNewChannel = (data) => async () => {
   await axios.post(routes.channelsPath(), {
     data: {
       attributes: data,

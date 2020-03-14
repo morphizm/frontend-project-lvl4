@@ -1,6 +1,22 @@
 import React from 'react';
+import { Formik } from 'formik';
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
+
+const actionCreators = {
+  renameChannel: actions.renameChannel,
+};
 
 const Rename = (props) => {
+  const {
+    onHide, modalInfo, renameChannel,
+  } = props;
+  const { item } = modalInfo;
+
+  const onSubmit = (values) => {
+    renameChannel({ name: values.channel, id: item.id });
+    onHide();
+  };
 
   const vdom = (
     <>
@@ -9,21 +25,39 @@ const Rename = (props) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                Rename
-                {1}
-                channel
+                Rename&nbsp;
+                {item.name}
+                &nbsp;channel
               </h5>
-              <button type="button" className="close" aria-label="Close">
+              <button onClick={onHide} type="button" className="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div className="modal-body">
-              ...input...
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary">Close</button>
-              <button type="button" className="btn btn-primary">Rename</button>
-            </div>
+            <Formik initialValues={{ channel: item.name }} onSubmit={onSubmit}>
+              {({
+                values,
+                handleSubmit,
+                handleChange,
+              }) => (
+                <form onSubmit={handleSubmit}>
+                  <div className="modal-body">
+                    <div className="form-group">
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="channel"
+                        onChange={handleChange}
+                        value={values.channel}
+                      />
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button onClick={onHide} type="button" className="btn btn-secondary">Close</button>
+                    <button type="submit" className="btn btn-primary">Rename</button>
+                  </div>
+                </form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>
@@ -33,4 +67,4 @@ const Rename = (props) => {
   return vdom;
 };
 
-export default Rename;
+export default connect(null, actionCreators)(Rename);
