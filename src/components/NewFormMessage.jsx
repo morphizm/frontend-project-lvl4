@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import { sendMessage } from '../actions';
+import Context from '../context';
 
 const mapStateToProps = (state) => {
   const { currentChannelId } = state;
@@ -14,7 +15,8 @@ const actionCreators = {
 
 
 const NewFormMessage = (props) => {
-  const { currentChannelId, user } = props;
+  const { user } = useContext(Context);
+  const { currentChannelId } = props;
   const handleSendMessage = async (values, actions) => {
     console.log(actions, values);
     const { resetForm } = actions;

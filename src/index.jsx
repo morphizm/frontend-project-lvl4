@@ -10,6 +10,7 @@ import io from 'socket.io-client';
 
 import reducers from './reducers';
 import App from './components/App';
+import Context from './context';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -24,8 +25,6 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-console.log('gon', gon);
-console.log(cookies.get('name'));
 const socket = io();
 
 const user = () => {
@@ -33,7 +32,7 @@ const user = () => {
   if (userName) {
     return { name: userName };
   }
-  const newUserName = faker.name.findName();
+  const newUserName = faker.name.finName();
   cookies.set('name', newUserName);
   return { name: newUserName };
 };
@@ -50,7 +49,9 @@ store.dispatch(subscribeOnRenameChannel(socket));
 
 render(
   <Provider store={store}>
-    <App user={user()} />
+    <Context.Provider value={{ user: user() }}>
+      <App />
+    </Context.Provider>
   </Provider>,
   document.getElementById('chat'),
 );
