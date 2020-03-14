@@ -1,5 +1,4 @@
 import { createAction } from '@reduxjs/toolkit';
-// import faker from 'faker';
 import _ from 'lodash';
 import axios from 'axios';
 import routes from '../routes';

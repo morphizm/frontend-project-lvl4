@@ -32,8 +32,8 @@ const NewFormMessage = (props) => {
   const vdom = (
     <Formik initialValues={{ message: '' }} onSubmit={handleSendMessage}>
       {() => (
-        <Form className="form-row">
-          <div className="form-group col-11">
+        <Form className="form-row align-self-end flex-nowrap">
+          <div className="form-group col-10">
             <Field
               className="form-control"
               type="text"

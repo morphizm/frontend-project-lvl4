@@ -18,7 +18,7 @@ const renderMessage = (item) => {
   } = item;
 
   const vdom = (
-    <div key={id} className="d-flex-column">
+    <div key={id} className="d-flex-column flex-wrap">
       <h6>{userName}</h6>
       <p className="px-2">{message}</p>
     </div>
@@ -27,13 +27,8 @@ const renderMessage = (item) => {
 };
 
 const Messages = ({ messages }) => {
-  const style = {
-    minHeight: '75vh',
-    maxHeight: '75vh',
-  };
-
   const vdom = (
-    <div className="d-flex-column overflow-auto" style={style}>
+    <div className="d-flex-column overflow-auto h-75 flex-fill">
       {messages.map(renderMessage)}
     </div>
   );

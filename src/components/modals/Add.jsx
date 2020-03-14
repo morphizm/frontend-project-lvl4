@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
+import { useClickAway } from 'react-use';
 import * as actions from '../../actions';
 
 const actionCreators = {
@@ -17,11 +18,18 @@ const Add = (props) => {
     onHide();
   };
 
+  const modalRef = useRef(null);
+  useClickAway(modalRef, () => onHide());
+  const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [null]);
+
   const vdom = (
     <div>
       <div className="modal fade show" role="dialog" style={{ display: 'block' }}>
         <div className="modal-dialog" role="document">
-          <div className="modal-content">
+          <div ref={modalRef} className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Add new channel</h5>
               <button onClick={onHide} type="button" className="close" aria-label="Close">
@@ -38,6 +46,7 @@ const Add = (props) => {
                   <div className="modal-body">
                     <div className="form-group">
                       <input
+                        ref={inputRef}
                         placeholder="Channel"
                         className="form-control"
                         type="text"

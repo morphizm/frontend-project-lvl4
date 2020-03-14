@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import cn from 'classnames';
@@ -15,13 +17,13 @@ const actionCreators = {
   changeCurrentChannel: actions.changeCurrentChannel,
 };
 
-const renderModal = ({ modalInfo, hideModal, onSubmit }) => {
+const renderModal = ({ modalInfo, hideModal }) => {
   if (!modalInfo.type) {
     return null;
   }
 
   const Component = getModal(modalInfo.type);
-  return <Component modalInfo={modalInfo} onSubmit={onSubmit} onHide={hideModal} />;
+  return <Component modalInfo={modalInfo} onHide={hideModal} />;
 };
 
 const Channels = (props) => {
@@ -40,7 +42,7 @@ const Channels = (props) => {
     } = channel;
 
     const classAttributes = cn({
-      'list-group-item': true,
+      'list-group-item d-inline-flex flex-row align-items-cener p-1': true,
       active: id === currentChannelId,
     });
 
@@ -49,10 +51,10 @@ const Channels = (props) => {
         key={id}
         className={classAttributes}
       >
-        <button className="btn" type="button" onClick={changeChannel(id)}>
+        <div className="btn align-self-start flex-grow-1 text-left text-truncate" onClick={changeChannel(id)} type="button">
           {name}
-        </button>
-        <button onClick={() => showModal('renaming', channel)} type="button"> </button>
+        </div>
+        <div className="align-self-center px-1 close" onClick={() => showModal('renaming', channel)} type="button">*</div>
         {removable && (
           <button onClick={() => showModal('removing', channel)} type="button" className="close">
             <span aria-hidden="true">&times;</span>
@@ -65,10 +67,10 @@ const Channels = (props) => {
 
   const { channels, currentChannelId } = props;
   const vdom = (
-    <div className="card overflow-auto w-25">
-      <div className="card-header">
+    <div className="card overflow-auto w-25" style={{ minWidth: '25%' }}>
+      <div className="card-header d-flex justify-content-between p-2">
         Channels:
-        <button type="button" className="close" onClick={() => showModal('adding')}>
+        <button type="button" className="close p-0" onClick={() => showModal('adding')}>
           <span aria-hidden="true">+</span>
         </button>
       </div>

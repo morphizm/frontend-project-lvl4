@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { connect } from 'react-redux';
+import { useClickAway } from 'react-use';
 import * as actions from '../../actions';
 
 const actionCreators = {
@@ -17,11 +18,14 @@ const Remove = (props) => {
     onHide();
   };
 
+  const ref = useRef(null);
+  useClickAway(ref, () => onHide());
+
   const vdom = (
     <>
       <div className="modal fade show" role="dialog" style={{ display: 'block' }}>
         <div className="modal-dialog" role="document">
-          <div className="modal-content">
+          <div ref={ref} className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
                 Remove

@@ -5,9 +5,9 @@ import NewFormMessage from './NewFormMessage';
 
 const App = ({ user }) => {
   const vdom = (
-    <div className="d-flex min-vh-100 mh-100">
+    <div className="d-flex min-vh-100 mh-100 flex-nowrap">
       <Channels />
-      <div className="d-flex-column flex-fill m-2">
+      <div className="d-flex-column min-vh-100 mh-100 flex-fill m-2">
         <Messages />
         <NewFormMessage user={user} />
       </div>
