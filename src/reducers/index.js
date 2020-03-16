@@ -58,6 +58,60 @@ const currentChannelId = createReducer(null, {
   },
 });
 
+const channelAddingState = createReducer('none', {
+  [actions.addChannelFailure]() {
+    return 'failure';
+  },
+  [actions.addChannelRequest]() {
+    return 'request';
+  },
+  [actions.addChannelSuccess]() {
+    return 'success';
+  },
+});
+
+const messageSendingState = createReducer('none', {
+  [actions.sendMessageFailure]() {
+    return 'failure';
+  },
+  [actions.sendMessageRequest]() {
+    return 'request';
+  },
+  [actions.sendMessageSuccess]() {
+    return 'success';
+  },
+});
+
+const channelRemovingState = createReducer('none', {
+  [actions.removeChannelFailure]() {
+    return 'failure';
+  },
+  [actions.removeChannelRequest]() {
+    return 'request';
+  },
+  [actions.removeChannelSuccess]() {
+    return 'success';
+  },
+});
+
+const channelRenamingState = createReducer('none', {
+  [actions.renameChannelFailure]() {
+    return 'failure';
+  },
+  [actions.renameChannelRequest]() {
+    return 'request';
+  },
+  [actions.renameChannelSuccess]() {
+    return 'success';
+  },
+});
+
 export default {
-  channels, messages, currentChannelId,
+  channels,
+  messages,
+  currentChannelId,
+  channelAddingState,
+  messageSendingState,
+  channelRemovingState,
+  channelRenamingState,
 };
