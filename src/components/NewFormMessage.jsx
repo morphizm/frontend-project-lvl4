@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import cn from 'classnames';
 import i18next from 'i18next';
+import * as yup from 'yup';
 import { sendMessage } from '../actions';
 import Context from '../context';
 
@@ -15,6 +16,9 @@ const actionCreators = {
   sendMessage,
 };
 
+const messageSchema = yup.object().shape({
+  message: yup.string().trim().required(() => i18next.t('required')),
+});
 
 const NewFormMessage = (props) => {
   const { user } = useContext(Context);
@@ -27,15 +31,8 @@ const NewFormMessage = (props) => {
 
   const isRequested = messageSendingState === 'request';
 
-  const validateMessage = (message) => {
-    if (!message.trim()) {
-      return i18next.t('required');
-    }
-    return null;
-  };
-
   const vdom = (
-    <Formik initialValues={{ message: '' }} onSubmit={handleSendMessage}>
+    <Formik initialValues={{ message: '' }} onSubmit={handleSendMessage} validationSchema={messageSchema}>
       {({ isSubmitting, errors, touched }) => {
         const fieldClassName = cn({
           'form-control': true,
@@ -56,7 +53,6 @@ const NewFormMessage = (props) => {
               <Field
                 className={fieldClassName}
                 type="text"
-                validate={validateMessage}
                 name="message"
                 placeholder="Message..."
               />

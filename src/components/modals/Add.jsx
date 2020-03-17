@@ -4,11 +4,16 @@ import { connect } from 'react-redux';
 import { useClickAway } from 'react-use';
 import i18next from 'i18next';
 import cn from 'classnames';
+import * as yup from 'yup';
 import * as actions from '../../actions';
 
 const actionCreators = {
   addNewChannel: actions.addNewChannel,
 };
+
+const channelSchema = yup.object().shape({
+  channel: yup.string().trim().required(() => i18next.t('required')),
+});
 
 const Add = (props) => {
   const {
@@ -27,14 +32,6 @@ const Add = (props) => {
     inputRef.current.focus();
   }, [null]);
 
-  const validate = ({ channel }) => {
-    const errors = {};
-    if (!channel.trim()) {
-      errors.channel = i18next.t('required');
-    }
-    return errors;
-  };
-
   const vdom = (
     <div>
       <div className="modal fade show" role="dialog" style={{ display: 'block' }}>
@@ -46,7 +43,7 @@ const Add = (props) => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <Formik initialValues={{ channel: '' }} onSubmit={onSubmit} validate={validate}>
+            <Formik initialValues={{ channel: '' }} onSubmit={onSubmit} validationSchema={channelSchema}>
               {({
                 handleChange,
                 handleSubmit,
