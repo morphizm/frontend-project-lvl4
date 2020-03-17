@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import cn from 'classnames';
+import i18next from 'i18next';
 import * as actions from '../actions';
 import getModal from './modals';
 
@@ -70,7 +71,8 @@ const Channels = (props) => {
   const vdom = (
     <div className="card overflow-auto w-25" style={{ minWidth: '25%' }}>
       <div className="card-header d-flex justify-content-between p-2">
-        Channels:
+        {i18next.t('channels')}
+        :
         <button disabled={isRequested} type="button" className="close p-0" onClick={() => showModal('adding')}>
           <span aria-hidden="true">+</span>
         </button>
@@ -79,7 +81,10 @@ const Channels = (props) => {
         {channels.map((c) => renderChannel(c, currentChannelId))}
         {isRequested && (
         <div className="list-group-item d-inline-flex flex-row p-1">
-          <strong>Adding...</strong>
+          <strong>
+            {i18next.t('adding')}
+            ...
+          </strong>
           <div className="spinner-border spinner-border-sm ml-auto" role="status" aria-hidden="true" />
         </div>
         )}

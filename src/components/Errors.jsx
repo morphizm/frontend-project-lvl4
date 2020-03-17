@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import i18next from 'i18next';
 
 const mapStateToProps = (state) => {
   const { channelAddingState, messageSendingState } = state;
@@ -17,10 +18,10 @@ const Errors = (props) => {
   const { channelAddingState, messageSendingState } = props;
 
   if (channelAddingState === failed) {
-    return alert('Channel not added.Please, try again');
+    return alert(i18next.t('channelFail'));
   }
   if (messageSendingState === failed) {
-    return alert('Message not sent.Please, try again');
+    return alert(i18next.t('messageFail'));
   }
 
   return null;

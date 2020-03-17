@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import cn from 'classnames';
+import i18next from 'i18next';
 import { sendMessage } from '../actions';
 import Context from '../context';
 
@@ -28,7 +29,7 @@ const NewFormMessage = (props) => {
 
   const validateMessage = (message) => {
     if (!message.trim()) {
-      return 'Required';
+      return i18next.t('required');
     }
     return null;
   };
@@ -43,9 +44,12 @@ const NewFormMessage = (props) => {
         const submitButton = isSubmitting || isRequested ? (
           <button className="btn btn-primary" type="submit" disabled>
             <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-            <span className="sr-only">Sending...</span>
+            <span className="sr-only">
+              {i18next.t('sending')}
+              ...
+            </span>
           </button>
-        ) : (<button className="btn btn-primary" type="submit">Send</button>);
+        ) : (<button className="btn btn-primary" type="submit">{i18next.t('send')}</button>);
         return (
           <Form className="form-row align-self-end flex-nowrap">
             <div className="form-group col-10">

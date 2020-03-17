@@ -6,10 +6,12 @@ import gon from 'gon';
 import faker from 'faker';
 import cookies from 'js-cookie';
 import io from 'socket.io-client';
+import i18next from 'i18next';
 
 import reducers from './reducers';
 import App from './components/App';
 import Context from './context';
+import resources from './locales';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -23,6 +25,12 @@ import {
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
+
+i18next.init({
+  lng: 'en',
+  debug: true,
+  resources,
+});
 
 const socket = io();
 

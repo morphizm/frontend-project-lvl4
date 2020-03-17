@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { useClickAway } from 'react-use';
+import i18next from 'i18next';
 import * as actions from '../../actions';
 
 const actionCreators = {
@@ -33,9 +34,7 @@ const Rename = (props) => {
           <div ref={modalRef} className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                Rename&nbsp;
-                {item.name}
-                &nbsp;channel
+                {i18next.t('renameChannel', { name: item.name })}
               </h5>
               <button onClick={onHide} type="button" className="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -62,8 +61,8 @@ const Rename = (props) => {
                     </div>
                   </div>
                   <div className="modal-footer">
-                    <button onClick={onHide} type="button" className="btn btn-secondary">Close</button>
-                    <button disabled={isSubmitting} type="submit" className="btn btn-primary">Rename</button>
+                    <button onClick={onHide} type="button" className="btn btn-secondary">{i18next.t('close')}</button>
+                    <button disabled={isSubmitting} type="submit" className="btn btn-primary">{i18next.t('rename')}</button>
                   </div>
                 </form>
               )}

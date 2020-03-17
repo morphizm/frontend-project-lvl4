@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { useClickAway } from 'react-use';
+import i18next from 'i18next';
 import * as actions from '../../actions';
 
 const actionCreators = {
@@ -31,7 +32,7 @@ const Add = (props) => {
         <div className="modal-dialog" role="document">
           <div ref={modalRef} className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Add new channel</h5>
+              <h5 className="modal-title">{i18next.t('addNewChannel')}</h5>
               <button onClick={onHide} type="button" className="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -57,8 +58,8 @@ const Add = (props) => {
                       />
                     </div>
                     <div className="modal-footer">
-                      <button onClick={onHide} type="button" className="btn btn-secondary">Close</button>
-                      <button disabled={isSubmitting} type="submit" className="btn btn-primary">Add</button>
+                      <button onClick={onHide} type="button" className="btn btn-secondary">{i18next.t('close')}</button>
+                      <button disabled={isSubmitting} type="submit" className="btn btn-primary">{i18next.t('add')}</button>
                     </div>
                   </div>
                 </form>

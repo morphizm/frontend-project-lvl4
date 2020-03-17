@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import { useClickAway } from 'react-use';
+import i18next from 'i18next';
 import * as actions from '../../actions';
 
 const actionCreators = {
@@ -28,21 +29,18 @@ const Remove = (props) => {
           <div ref={ref} className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">
-                Remove
-                the&nbsp;
-                {item.name}
-                &nbsp;channel
+                {i18next.t('removeChannel', { name: item.name })}
               </h5>
               <button onClick={onHide} type="button" className="close" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">
-              Are you sure?
+              {i18next.t('sure')}
             </div>
             <div className="modal-footer">
-              <button onClick={onHide} type="button" className="btn btn-secondary">Close</button>
-              <button onClick={onSubmit} type="button" className="btn btn-danger">Remove</button>
+              <button onClick={onHide} type="button" className="btn btn-secondary">{i18next.t('close')}</button>
+              <button onClick={onSubmit} type="button" className="btn btn-danger">{i18next.t('remove')}</button>
             </div>
           </div>
         </div>
