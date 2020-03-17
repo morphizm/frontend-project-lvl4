@@ -41,6 +41,7 @@ const Add = (props) => {
                 handleChange,
                 handleSubmit,
                 values,
+                isSubmitting,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="modal-body">
@@ -57,7 +58,7 @@ const Add = (props) => {
                     </div>
                     <div className="modal-footer">
                       <button onClick={onHide} type="button" className="btn btn-secondary">Close</button>
-                      <button type="submit" className="btn btn-primary">Add</button>
+                      <button disabled={isSubmitting} type="submit" className="btn btn-primary">Add</button>
                     </div>
                   </div>
                 </form>

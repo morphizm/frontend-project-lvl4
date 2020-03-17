@@ -8,9 +8,9 @@ import getModal from './modals';
 
 
 const mapStateToProps = (state) => {
-  const { channels: { allIds, byId }, currentChannelId } = state;
+  const { channels: { allIds, byId }, currentChannelId, channelAddingState } = state;
   const channels = allIds.map((id) => byId[id]);
-  return { channels, currentChannelId };
+  return { channels, currentChannelId, channelAddingState };
 };
 
 const actionCreators = {
@@ -42,7 +42,7 @@ const Channels = (props) => {
     } = channel;
 
     const classAttributes = cn({
-      'list-group-item d-inline-flex flex-row align-items-cener p-1': true,
+      'list-group-item d-inline-flex flex-row p-1': true,
       active: id === currentChannelId,
     });
 
@@ -65,19 +65,27 @@ const Channels = (props) => {
     return vdom;
   };
 
-  const { channels, currentChannelId } = props;
+  const { channels, currentChannelId, channelAddingState } = props;
+  const isRequested = channelAddingState === 'request';
   const vdom = (
     <div className="card overflow-auto w-25" style={{ minWidth: '25%' }}>
       <div className="card-header d-flex justify-content-between p-2">
         Channels:
-        <button type="button" className="close p-0" onClick={() => showModal('adding')}>
+        <button disabled={isRequested} type="button" className="close p-0" onClick={() => showModal('adding')}>
           <span aria-hidden="true">+</span>
         </button>
       </div>
       <div className="list-group list-group-flush">
         {channels.map((c) => renderChannel(c, currentChannelId))}
+        {isRequested && (
+        <div className="list-group-item d-inline-flex flex-row p-1">
+          <strong>Adding...</strong>
+          <div className="spinner-border spinner-border-sm ml-auto" role="status" aria-hidden="true" />
+        </div>
+        )}
       </div>
       {renderModal({ modalInfo, hideModal })}
+
     </div>
   );
 

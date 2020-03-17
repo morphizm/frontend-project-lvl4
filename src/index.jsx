@@ -6,7 +6,6 @@ import gon from 'gon';
 import faker from 'faker';
 import cookies from 'js-cookie';
 import io from 'socket.io-client';
-// import axios from 'axios';
 
 import reducers from './reducers';
 import App from './components/App';

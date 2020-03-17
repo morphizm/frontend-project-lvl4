@@ -82,36 +82,10 @@ const messageSendingState = createReducer('none', {
   },
 });
 
-const channelRemovingState = createReducer('none', {
-  [actions.removeChannelFailure]() {
-    return 'failure';
-  },
-  [actions.removeChannelRequest]() {
-    return 'request';
-  },
-  [actions.removeChannelSuccess]() {
-    return 'success';
-  },
-});
-
-const channelRenamingState = createReducer('none', {
-  [actions.renameChannelFailure]() {
-    return 'failure';
-  },
-  [actions.renameChannelRequest]() {
-    return 'request';
-  },
-  [actions.renameChannelSuccess]() {
-    return 'success';
-  },
-});
-
 export default {
   channels,
   messages,
   currentChannelId,
   channelAddingState,
   messageSendingState,
-  channelRemovingState,
-  channelRenamingState,
 };

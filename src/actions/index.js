@@ -11,12 +11,7 @@ export const addChannelSuccess = createAction('ADD_CHANNEL_SUCCESS');
 export const addChannelFailure = createAction('ADD_CHANNEL_FAILURE');
 
 export const removeChannelSuccess = createAction('REMOVE_CHANNEL_SUCCESS');
-export const removeChannelRequest = createAction('REMOVE_CHANNEL_REQUEST');
-export const removeChannelFailure = createAction('REMOVE_CHANNEL_FAILURE');
-
 export const renameChannelSuccess = createAction('RENAME_CHANNEL_SUCCESS');
-export const renameChannelRequest = createAction('RENAME_CHANNEL_REQUEST');
-export const renameChannelFailure = createAction('RENAME_CHANNEL_FAILURE');
 
 export const fetchMessageSuccess = createAction('FETCH_MESSAGE_SUCCESS');
 export const fetchMessagesSuccess = createAction('FETCH_MESSAGES_SUCCESS');
@@ -58,35 +53,31 @@ export const addNewChannel = (data) => async (dispatch) => {
       attributes: data,
     },
   }).then(() => dispatch(addChannelSuccess()))
-    .catch(dispatch(addChannelFailure));
+    .catch(() => dispatch(addChannelFailure()));
 };
 
-export const removeChannel = ({ id }) => async (dispatch) => {
-  dispatch(removeChannelRequest());
-  await axios.delete(routes.channelPath(id))
-    .then(dispatch(removeChannelSuccess))
-    .catch(dispatch(removeChannelFailure));
+export const removeChannel = ({ id }) => async () => {
+  await axios.delete(routes.channelPath(id));
 };
 
-export const renameChannel = (data) => async (dispatch) => {
-  dispatch(renameChannelRequest());
+export const renameChannel = (data) => async () => {
   const { id } = data;
   await axios.patch(routes.channelPath(id), {
     data: {
       attributes: data,
     },
-  }).then(dispatch(renameChannelSuccess))
-    .catch(dispatch(renameChannelFailure));
+  });
 };
 
-export const sendMessage = (data) => async () => {
+export const sendMessage = (data) => async (dispatch) => {
   const { channelId } = data;
+  dispatch(sendMessageRequest());
   await axios.post(routes.channelMessagesPath(channelId), {
     data: {
       attributes: _.omit(data, 'channelId'),
     },
-  });
-  // data: { attributes: { content: 'my dog like pit but a', userName: 'Fendk als' }} })
+  }).then(() => dispatch(sendMessageSuccess()))
+    .catch(() => dispatch(sendMessageFailure()));
 };
 
 export const setupState = (gon) => (dispatch) => {

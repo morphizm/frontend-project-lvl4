@@ -46,6 +46,7 @@ const Rename = (props) => {
                 values,
                 handleSubmit,
                 handleChange,
+                isSubmitting,
               }) => (
                 <form onSubmit={handleSubmit}>
                   <div className="modal-body">
@@ -62,7 +63,7 @@ const Rename = (props) => {
                   </div>
                   <div className="modal-footer">
                     <button onClick={onHide} type="button" className="btn btn-secondary">Close</button>
-                    <button type="submit" className="btn btn-primary">Rename</button>
+                    <button disabled={isSubmitting} type="submit" className="btn btn-primary">Rename</button>
                   </div>
                 </form>
               )}
