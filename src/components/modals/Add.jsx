@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { useClickAway } from 'react-use';
 import i18next from 'i18next';
+import cn from 'classnames';
 import * as actions from '../../actions';
 
 const actionCreators = {
@@ -26,6 +27,14 @@ const Add = (props) => {
     inputRef.current.focus();
   }, [null]);
 
+  const validate = ({ channel }) => {
+    const errors = {};
+    if (!channel.trim()) {
+      errors.channel = i18next.t('required');
+    }
+    return errors;
+  };
+
   const vdom = (
     <div>
       <div className="modal fade show" role="dialog" style={{ display: 'block' }}>
@@ -37,33 +46,43 @@ const Add = (props) => {
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <Formik initialValues={{ channel: '' }} onSubmit={onSubmit}>
+            <Formik initialValues={{ channel: '' }} onSubmit={onSubmit} validate={validate}>
               {({
                 handleChange,
                 handleSubmit,
                 values,
                 isSubmitting,
-              }) => (
-                <form onSubmit={handleSubmit}>
-                  <div className="modal-body">
-                    <div className="form-group">
-                      <input
-                        ref={inputRef}
-                        placeholder="Channel"
-                        className="form-control"
-                        type="text"
-                        name="channel"
-                        onChange={handleChange}
-                        value={values.channel}
-                      />
+                errors,
+              }) => {
+                const channelClassNames = cn({
+                  'form-control': true,
+                  'is-invalid': errors.channel,
+                });
+                return (
+                  <form onSubmit={handleSubmit}>
+                    <div className="modal-body">
+                      <div className="form-group">
+                        <input
+                          ref={inputRef}
+                          placeholder="Channel"
+                          className={channelClassNames}
+                          type="text"
+                          name="channel"
+                          onChange={handleChange}
+                          value={values.channel}
+                        />
+                        <div className="invalid-feedback">
+                          {errors.channel}
+                        </div>
+                      </div>
+                      <div className="modal-footer">
+                        <button onClick={onHide} type="button" className="btn btn-secondary">{i18next.t('close')}</button>
+                        <button disabled={isSubmitting} type="submit" className="btn btn-primary">{i18next.t('add')}</button>
+                      </div>
                     </div>
-                    <div className="modal-footer">
-                      <button onClick={onHide} type="button" className="btn btn-secondary">{i18next.t('close')}</button>
-                      <button disabled={isSubmitting} type="submit" className="btn btn-primary">{i18next.t('add')}</button>
-                    </div>
-                  </div>
-                </form>
-              )}
+                  </form>
+                );
+              }}
             </Formik>
           </div>
         </div>

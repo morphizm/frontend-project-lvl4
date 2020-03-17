@@ -4,6 +4,7 @@ const en = {
     add: 'Add',
     loading: 'Loading',
     sending: 'Sending',
+    adding: 'Adding',
     send: 'Send',
     required: 'Required',
     close: 'Close',
