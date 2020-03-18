@@ -9,9 +9,6 @@ const mapStateToProps = (state) => {
   return { messages };
 };
 
-const actionCreators = {
-};
-
 const renderMessage = (item) => {
   const {
     userName, message, id,
@@ -36,4 +33,4 @@ const Messages = ({ messages }) => {
   return vdom;
 };
 
-export default connect(mapStateToProps, actionCreators)(Messages);
+export default connect(mapStateToProps)(Messages);

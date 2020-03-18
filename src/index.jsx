@@ -28,7 +28,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 i18next.init({
   lng: 'en',
-  debug: true,
   resources,
 });
 

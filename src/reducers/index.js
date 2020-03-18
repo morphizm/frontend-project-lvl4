@@ -44,7 +44,7 @@ const messages = createReducer({ byId: {}, allIds: [] }, {
   [actions.fetchMessagesSuccess](state, { payload }) {
     return {
       byId: _.keyBy(payload.messages, 'id'),
-      allIds: payload.messages.map((c) => c.id),
+      allIds: payload.messages.map((m) => m.id),
     };
   },
 });
