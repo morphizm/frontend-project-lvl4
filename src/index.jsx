@@ -38,7 +38,7 @@ const user = () => {
   if (userName) {
     return { name: userName };
   }
-  const newUserName = faker.name.finName();
+  const newUserName = faker.name.findName();
   cookies.set('name', newUserName);
   return { name: newUserName };
 };
