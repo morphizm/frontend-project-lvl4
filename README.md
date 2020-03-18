@@ -2,7 +2,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/9a41a90d34d1ed476c56/maintainability)](https://codeclimate.com/github/morphizm/frontend-project-lvl4/maintainability)
 
 ### Heroku
-Go to [https://sheltered-savannah-44467.herokuapp.com](https://sheltered-savannah-44467.herokuapp.com)
+Go to [https://salty-cliffs-98879.herokuapp.com](https://salty-cliffs-98879.herokuapp.com)
 
 ### Requirements
 
