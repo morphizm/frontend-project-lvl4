@@ -5,7 +5,8 @@ const isProduction = process.env.NODE_ENV === 'production';
 console.log('isProduction', isProduction);
 
 module.exports = {
-  mode: process.env.NODE_ENV || 'development',
+  // mode: process.env.NODE_ENV || 'development',
+  mode: 'development',
   entry: [
     `${__dirname}/src/index.jsx`,
   ],
