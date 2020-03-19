@@ -50,7 +50,7 @@ const Channels = (props) => {
         key={id}
         className={classAttributes}
       >
-        <div className="btn align-self-start flex-grow-1 text-left text-truncate" onClick={changeChannel(id)} type="button">
+        <div className="btn align-self-start flex-grow-1 text-left text-truncate" onClick={changeChannel(id)}>
           {name}
         </div>
         <div className="align-self-center close" onClick={() => showModal('renaming', channel)} dangerouslySetInnerHTML={{ __html: EditSvgIcon }} style={{ width: '17px' }} />
