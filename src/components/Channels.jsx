@@ -4,7 +4,7 @@ import cn from 'classnames';
 import i18next from 'i18next';
 import * as actions from '../actions';
 import getModal from './modals';
-
+import EditSvgIcon from '../../assets/edit-icon.svg';
 
 const mapStateToProps = (state) => {
   const { channels: { allIds, byId }, currentChannelId, channelAddingState } = state;
@@ -53,7 +53,7 @@ const Channels = (props) => {
         <div className="btn align-self-start flex-grow-1 text-left text-truncate" onClick={changeChannel(id)} type="button">
           {name}
         </div>
-        <div className="align-self-center px-1 close" onClick={() => showModal('renaming', channel)} type="button">*</div>
+        <div className="align-self-center close" onClick={() => showModal('renaming', channel)} type="button" dangerouslySetInnerHTML={{ __html: EditSvgIcon }} style={{ width: '17px' }} />
         {removable && (
           <button onClick={() => showModal('removing', channel)} type="button" className="close">
             <span aria-hidden="true">&times;</span>

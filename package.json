@@ -54,6 +54,7 @@
     "fastify-secure-session": "^1.1.1",
     "fastify-sensible": "^2.1.1",
     "fastify-static": "^2.6.0",
+    "file-loader": "^6.0.0",
     "formik": "^2.1.4",
     "i18next": "^19.3.3",
     "jquery": "^3.4.1",
@@ -99,6 +100,7 @@
     "eslint-plugin-react": "^7.18.3",
     "jest": "^25.1.0",
     "jest-cli": "^25.1.0",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "svg-inline-loader": "^0.8.2"
   }
 }
