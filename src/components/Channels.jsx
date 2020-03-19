@@ -53,7 +53,7 @@ const Channels = (props) => {
         <div className="btn align-self-start flex-grow-1 text-left text-truncate" onClick={changeChannel(id)} type="button">
           {name}
         </div>
-        <div className="align-self-center close" onClick={() => showModal('renaming', channel)} type="button" dangerouslySetInnerHTML={{ __html: EditSvgIcon }} style={{ width: '17px' }} />
+        <div className="align-self-center close" onClick={() => showModal('renaming', channel)} dangerouslySetInnerHTML={{ __html: EditSvgIcon }} style={{ width: '17px' }} />
         {removable && (
           <button onClick={() => showModal('removing', channel)} type="button" className="close">
             <span aria-hidden="true">&times;</span>
