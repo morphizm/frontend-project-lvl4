@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 import i18next from 'i18next';
-import * as actions from '../actions';
+import { actions } from '../slices';
 import getModal from './modals';
 import EditSvgIcon from '../../assets/edit-icon.svg';
 
 const mapStateToProps = (state) => {
-  const { channels: { allIds, byId }, currentChannelId, channelAddingState } = state;
+  const { channels: { allIds, byId }, currentChannel, channelAddingState } = state;
   const channels = allIds.map((id) => byId[id]);
-  return { channels, currentChannelId, channelAddingState };
+  return { channels, currentChannelId: currentChannel.id, channelAddingState };
 };
 
 const actionCreators = {

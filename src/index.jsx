@@ -8,7 +8,6 @@ import cookies from 'js-cookie';
 import io from 'socket.io-client';
 import i18next from 'i18next';
 
-import reducers from './reducers';
 import App from './components/App';
 import Context from './context';
 import resources from './locales';
@@ -17,10 +16,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import '../assets/application.scss';
-import {
-  setupState, subscribeOnNewMessage, subscribeOnNewChannel, subscribeOnDeleteChannel,
-  subscribeOnRenameChannel,
-} from './actions';
+import reducer, { actions, setupState } from './slices';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -44,14 +40,14 @@ const user = () => {
 };
 
 const store = configureStore({
-  reducer: reducers,
+  reducer,
 });
 
 store.dispatch(setupState(gon));
-store.dispatch(subscribeOnNewMessage(socket));
-store.dispatch(subscribeOnNewChannel(socket));
-store.dispatch(subscribeOnDeleteChannel(socket));
-store.dispatch(subscribeOnRenameChannel(socket));
+store.dispatch(actions.subscribeOnNewMessage(socket));
+store.dispatch(actions.subscribeOnNewChannel(socket));
+store.dispatch(actions.subscribeOnDeleteChannel(socket));
+store.dispatch(actions.subscribeOnRenameChannel(socket));
 
 render(
   <Provider store={store}>

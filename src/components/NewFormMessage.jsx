@@ -4,16 +4,16 @@ import { Formik, Field, Form } from 'formik';
 import cn from 'classnames';
 import i18next from 'i18next';
 import * as yup from 'yup';
-import { sendMessage } from '../actions';
+import { asyncActions } from '../slices';
 import Context from '../context';
 
 const mapStateToProps = (state) => {
-  const { currentChannelId, messageSendingState } = state;
-  return { currentChannelId, messageSendingState };
+  const { currentChannel, messageSendingState } = state;
+  return { currentChannelId: currentChannel.id, messageSendingState };
 };
 
 const actionCreators = {
-  sendMessage,
+  sendMessage: asyncActions.sendMessage,
 };
 
 const messageSchema = yup.object().shape({
