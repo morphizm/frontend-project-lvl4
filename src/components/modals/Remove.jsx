@@ -2,10 +2,10 @@ import React, { useRef } from 'react';
 import { connect } from 'react-redux';
 import { useClickAway } from 'react-use';
 import i18next from 'i18next';
-import { actions } from '../../slices';
+import { asyncActions } from '../../slices';
 
 const actionCreators = {
-  removeChannel: actions.removeChannel,
+  removeChannel: asyncActions.removeChannel,
 };
 
 const Remove = (props) => {

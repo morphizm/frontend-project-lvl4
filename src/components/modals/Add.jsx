@@ -5,10 +5,10 @@ import { useClickAway } from 'react-use';
 import i18next from 'i18next';
 import cn from 'classnames';
 import * as yup from 'yup';
-import { actions } from '../../slices';
+import { asyncActions } from '../../slices';
 
 const actionCreators = {
-  addNewChannel: actions.addNewChannel,
+  addNewChannel: asyncActions.addNewChannel,
 };
 
 const channelSchema = yup.object().shape({
