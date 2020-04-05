@@ -18,9 +18,13 @@ const Rename = (props) => {
   const { item } = modalInfo;
   const dispatch = useDispatch();
 
-  const onSubmit = async (values) => {
-    await dispatch(renameChannel({ name: values.channel, id: item.id }));
-    onHide();
+  const onSubmit = async (values, actions) => {
+    try {
+      await dispatch(renameChannel({ name: values.channel, id: item.id }));
+      onHide();
+    } catch {
+      actions.setErrors({ channel: i18next.t('channelRenameFail') });
+    }
   };
 
   const modalRef = useRef(null);

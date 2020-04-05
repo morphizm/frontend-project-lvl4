@@ -38,9 +38,9 @@ const {
   fetchMessageSuccess,
 } = slice.actions;
 
-export const sendMessage = (data) => () => {
+export const sendMessage = (data) => async () => {
   const { channelId } = data;
-  axios.post(routes.channelMessagesPath(channelId), {
+  await axios.post(routes.channelMessagesPath(channelId), {
     data: {
       attributes: _.omit(data, 'channelId'),
     },
@@ -52,7 +52,6 @@ export const subscribeOnNewMessage = (socket) => async (dispatch) => {
     dispatch(fetchMessageSuccess({ message: data.attributes }));
   });
 };
-
 
 const actions = { ...slice.actions };
 export { actions };

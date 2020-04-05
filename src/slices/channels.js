@@ -29,27 +29,20 @@ const slice = createSlice({
       const { channel } = payload;
       state.byId[channel.id] = channel;
     },
-    addChannelFailure(state) {
-      state.channelAddingState = 'failure';
-    },
   },
 });
 
 const {
-  addChannelFailure, fetchChannelSuccess,
+  fetchChannelSuccess,
   removeChannelSuccess, renameChannelSuccess,
 } = slice.actions;
 
-export const addNewChannel = (data) => async (dispatch) => {
-  try {
-    await axios.post(routes.channelsPath(), {
-      data: {
-        attributes: data,
-      },
-    });
-  } catch {
-    dispatch(addChannelFailure());
-  }
+export const addNewChannel = (data) => async () => {
+  await axios.post(routes.channelsPath(), {
+    data: {
+      attributes: data,
+    },
+  });
 };
 
 export const removeChannel = ({ id }) => async () => {

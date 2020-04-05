@@ -16,8 +16,10 @@ const en = {
     sure: 'Are you sure?',
     remove: 'Remove',
     removeChannel: 'Remove {{name}} channel',
-    channelFail: 'Channel not added. Please, try again',
-    messageFail: 'Message not sent. Please, try again',
+    channelAddFail: 'Channel did not added. Please, try again',
+    channelRemoveFail: 'Channel did not remove. Please, try again',
+    channelRenameFail: 'Channel did not rename. Please, try again',
+    messageFail: 'Message did not sent. Please, try again',
   },
 };
 

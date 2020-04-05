@@ -17,9 +17,13 @@ const Add = (props) => {
   const { addNewChannel } = asyncActions;
   const dispatch = useDispatch();
 
-  const onSubmit = async (values) => {
-    await dispatch(addNewChannel({ name: values.channel }));
-    onHide();
+  const onSubmit = async (values, actions) => {
+    try {
+      await dispatch(addNewChannel({ name: values.channel }));
+      onHide();
+    } catch {
+      actions.setErrors({ channel: i18next.t('channelAddFail') });
+    }
   };
 
   const modalRef = useRef(null);
