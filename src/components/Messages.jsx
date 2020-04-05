@@ -1,13 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
-
-const mapStateToProps = (state) => {
-  const { messages: { allIds, byId }, currentChannel } = state;
-  const messages = allIds
-    .map((id) => byId[id])
-    .filter((mes) => mes.channelId === currentChannel.id);
-  return { messages };
-};
+import React, { useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const renderMessage = (item) => {
   const {
@@ -23,9 +15,21 @@ const renderMessage = (item) => {
   return vdom;
 };
 
-const Messages = ({ messages }) => {
+const Messages = () => {
+  const {
+    messages: { allIds, byId }, currentChannel,
+  } = useSelector((state) => state);
+  const messages = allIds
+    .map((id) => byId[id])
+    .filter((mes) => mes.channelId === currentChannel.id);
+  const messagesContainerRef = useRef();
+
+  useEffect(() => {
+    messagesContainerRef.current.scrollTo(0, messagesContainerRef.current.scrollHeight);
+  }, [allIds, currentChannel]);
+
   const vdom = (
-    <div className="d-flex-column overflow-auto h-75 flex-fill">
+    <div className="d-flex-column overflow-auto h-75 flex-fill" ref={messagesContainerRef}>
       {messages.map(renderMessage)}
     </div>
   );
@@ -33,4 +37,4 @@ const Messages = ({ messages }) => {
   return vdom;
 };
 
-export default connect(mapStateToProps)(Messages);
+export default Messages;

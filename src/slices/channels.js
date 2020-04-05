@@ -2,7 +2,6 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice } from '@reduxjs/toolkit';
-// import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 import routes from '../routes';
@@ -33,28 +32,24 @@ const slice = createSlice({
     addChannelFailure(state) {
       state.channelAddingState = 'failure';
     },
-    addChannelRequest(state) {
-      state.channelAddingState = 'request';
-    },
-    addChannelSuccess(state) {
-      state.channelAddingState = 'success';
-    },
   },
 });
 
 const {
-  addChannelFailure, addChannelRequest, addChannelSuccess,
-  fetchChannelSuccess, removeChannelSuccess, renameChannelSuccess,
+  addChannelFailure, fetchChannelSuccess,
+  removeChannelSuccess, renameChannelSuccess,
 } = slice.actions;
 
 export const addNewChannel = (data) => async (dispatch) => {
-  dispatch(addChannelRequest());
-  await axios.post(routes.channelsPath(), {
-    data: {
-      attributes: data,
-    },
-  }).then(() => dispatch(addChannelSuccess()))
-    .catch(() => dispatch(addChannelFailure()));
+  try {
+    await axios.post(routes.channelsPath(), {
+      data: {
+        attributes: data,
+      },
+    });
+  } catch {
+    dispatch(addChannelFailure());
+  }
 };
 
 export const removeChannel = ({ id }) => async () => {

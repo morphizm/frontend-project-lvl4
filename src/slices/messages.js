@@ -2,10 +2,10 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice } from '@reduxjs/toolkit';
-// import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import _ from 'lodash';
 import routes from '../routes';
+import { actions as channelsActions } from './channels';
 
 const slice = createSlice({
   name: 'messages',
@@ -21,31 +21,30 @@ const slice = createSlice({
       state.byId[id] = message;
       state.allIds.push(id);
     },
-    sendMessageRequest(state) {
-      state.messageSendingState = 'request';
-    },
-    sendMessageFailure(state) {
-      state.messageSendingState = 'failure';
-    },
-    sendMessageSuccess(state) {
-      state.messageSendingState = 'success';
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(channelsActions.removeChannelSuccess, (state, { payload }) => {
+      const { id } = payload;
+      const allRemovedChannelMessagesIds = _.keys(
+        _.pickBy(state.byId, (message) => message.channelId === id),
+      );
+      state.allIds = _.without(state.allIds, ...allRemovedChannelMessagesIds.map(Number));
+      state.byId = _.omitBy(state.byId, (message) => message.channelId === id);
+    });
   },
 });
 
 const {
-  sendMessageFailure, sendMessageRequest, sendMessageSuccess, fetchMessageSuccess,
+  fetchMessageSuccess,
 } = slice.actions;
 
-export const sendMessage = (data) => async (dispatch) => {
+export const sendMessage = (data) => () => {
   const { channelId } = data;
-  dispatch(sendMessageRequest());
-  await axios.post(routes.channelMessagesPath(channelId), {
+  axios.post(routes.channelMessagesPath(channelId), {
     data: {
       attributes: _.omit(data, 'channelId'),
     },
-  }).then(() => dispatch(sendMessageSuccess()))
-    .catch(() => dispatch(sendMessageFailure()));
+  });
 };
 
 export const subscribeOnNewMessage = (socket) => async (dispatch) => {

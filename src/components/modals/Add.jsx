@@ -1,27 +1,24 @@
 import React, { useRef, useEffect } from 'react';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useClickAway } from 'react-use';
 import i18next from 'i18next';
 import cn from 'classnames';
 import * as yup from 'yup';
 import { asyncActions } from '../../slices';
-
-const actionCreators = {
-  addNewChannel: asyncActions.addNewChannel,
-};
+import SubmitButton from '../SubmitButton';
 
 const channelSchema = yup.object().shape({
   channel: yup.string().trim().required(() => i18next.t('required')),
 });
 
 const Add = (props) => {
-  const {
-    onHide, addNewChannel,
-  } = props;
+  const { onHide } = props;
+  const { addNewChannel } = asyncActions;
+  const dispatch = useDispatch();
 
-  const onSubmit = (values) => {
-    addNewChannel({ name: values.channel });
+  const onSubmit = async (values) => {
+    await dispatch(addNewChannel({ name: values.channel }));
     onHide();
   };
 
@@ -74,7 +71,7 @@ const Add = (props) => {
                       </div>
                       <div className="modal-footer">
                         <button onClick={onHide} type="button" className="btn btn-secondary">{i18next.t('close')}</button>
-                        <button disabled={isSubmitting} type="submit" className="btn btn-primary">{i18next.t('add')}</button>
+                        <SubmitButton isSubmitting={isSubmitting} spinnerValue={i18next.t('adding')} sendValue={i18next.t('add')} />
                       </div>
                     </div>
                   </form>
@@ -90,4 +87,4 @@ const Add = (props) => {
   return vdom;
 };
 
-export default connect(null, actionCreators)(Add);
+export default Add;

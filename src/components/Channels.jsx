@@ -1,20 +1,10 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import i18next from 'i18next';
 import { actions } from '../slices';
 import getModal from './modals';
 import EditSvgIcon from '../../assets/edit-icon.svg';
-
-const mapStateToProps = (state) => {
-  const { channels: { allIds, byId }, currentChannel, channelAddingState } = state;
-  const channels = allIds.map((id) => byId[id]);
-  return { channels, currentChannelId: currentChannel.id, channelAddingState };
-};
-
-const actionCreators = {
-  changeCurrentChannel: actions.changeCurrentChannel,
-};
 
 const renderModal = ({ modalInfo, hideModal }) => {
   if (!modalInfo.type) {
@@ -25,14 +15,19 @@ const renderModal = ({ modalInfo, hideModal }) => {
   return <Component modalInfo={modalInfo} onHide={hideModal} />;
 };
 
-const Channels = (props) => {
+const Channels = () => {
   const [modalInfo, setModalInfo] = useState({ type: null, item: null });
   const hideModal = () => setModalInfo({ type: null, item: null });
   const showModal = (type, item = null) => setModalInfo({ type, item });
+  const dispatch = useDispatch();
+  const { changeCurrentChannel } = actions;
+  const {
+    channels: { allIds, byId }, currentChannel,
+  } = useSelector((state) => state);
+  const channels = allIds.map((id) => byId[id]);
 
   const changeChannel = (id) => () => {
-    const { changeCurrentChannel } = props;
-    changeCurrentChannel({ id });
+    dispatch(changeCurrentChannel({ id }));
   };
 
   const renderChannel = (channel, currentChannelId) => {
@@ -64,35 +59,23 @@ const Channels = (props) => {
     return vdom;
   };
 
-  const { channels, currentChannelId, channelAddingState } = props;
-  const isRequested = channelAddingState === 'request';
   const vdom = (
     <div className="card overflow-auto w-25" style={{ minWidth: '25%' }}>
       <div className="card-header d-flex justify-content-between p-2">
         {i18next.t('channels')}
         :
-        <button disabled={isRequested} type="button" className="close p-0" onClick={() => showModal('adding')}>
+        <button type="button" className="close p-0" onClick={() => showModal('adding')}>
           <span aria-hidden="true">+</span>
         </button>
       </div>
       <div className="list-group list-group-flush">
-        {channels.map((c) => renderChannel(c, currentChannelId))}
-        {isRequested && (
-        <div className="list-group-item d-inline-flex flex-row p-1">
-          <strong>
-            {i18next.t('adding')}
-            ...
-          </strong>
-          <div className="spinner-border spinner-border-sm ml-auto" role="status" aria-hidden="true" />
-        </div>
-        )}
+        {channels.map((c) => renderChannel(c, currentChannel.id))}
       </div>
       {renderModal({ modalInfo, hideModal })}
-
     </div>
   );
 
   return vdom;
 };
 
-export default connect(mapStateToProps, actionCreators)(Channels);
+export default Channels;

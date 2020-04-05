@@ -1,28 +1,25 @@
 import React, { useRef, useEffect } from 'react';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useClickAway } from 'react-use';
 import i18next from 'i18next';
 import cn from 'classnames';
 import * as yup from 'yup';
 import { asyncActions } from '../../slices';
-
-const actionCreators = {
-  renameChannel: asyncActions.renameChannel,
-};
+import SubmitButton from '../SubmitButton';
 
 const channelSchema = yup.object().shape({
   channel: yup.string().trim().required(() => i18next.t('required')),
 });
 
 const Rename = (props) => {
-  const {
-    onHide, modalInfo, renameChannel,
-  } = props;
+  const { onHide, modalInfo } = props;
+  const { renameChannel } = asyncActions;
   const { item } = modalInfo;
+  const dispatch = useDispatch();
 
-  const onSubmit = (values) => {
-    renameChannel({ name: values.channel, id: item.id });
+  const onSubmit = async (values) => {
+    await dispatch(renameChannel({ name: values.channel, id: item.id }));
     onHide();
   };
 
@@ -81,7 +78,7 @@ const Rename = (props) => {
                     </div>
                     <div className="modal-footer">
                       <button onClick={onHide} type="button" className="btn btn-secondary">{i18next.t('close')}</button>
-                      <button disabled={isSubmitting} type="submit" className="btn btn-primary">{i18next.t('rename')}</button>
+                      <SubmitButton isSubmitting={isSubmitting} spinnerValue={i18next.t('renaming')} sendValue={i18next.t('rename')} />
                     </div>
                   </form>
                 );
@@ -96,4 +93,4 @@ const Rename = (props) => {
   return vdom;
 };
 
-export default connect(null, actionCreators)(Rename);
+export default Rename;

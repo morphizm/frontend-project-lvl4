@@ -5,6 +5,8 @@ const en = {
     loading: 'Loading',
     sending: 'Sending',
     adding: 'Adding',
+    renaming: 'Renaming',
+    removing: 'Removing',
     send: 'Send',
     required: 'Required',
     close: 'Close',

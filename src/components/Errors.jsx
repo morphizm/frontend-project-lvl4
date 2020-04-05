@@ -1,11 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import i18next from 'i18next';
-
-const mapStateToProps = (state) => {
-  const { channelAddingState, messageSendingState } = state;
-  return { channelAddingState, messageSendingState };
-};
 
 const alert = (text) => (
   <div className="alert alert-danger" role="alert">
@@ -13,9 +8,10 @@ const alert = (text) => (
   </div>
 );
 
-const Errors = (props) => {
+const Errors = () => {
   const failed = 'failure';
-  const { channelAddingState, messageSendingState } = props;
+  const { messageSendingState } = useSelector((state) => state.messages);
+  const { channelAddingState } = useSelector((state) => state.channels);
 
   if (channelAddingState === failed) {
     return alert(i18next.t('channelFail'));
@@ -27,4 +23,4 @@ const Errors = (props) => {
   return null;
 };
 
-export default connect(mapStateToProps)(Errors);
+export default Errors;

@@ -1,21 +1,19 @@
 import React, { useRef } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useClickAway } from 'react-use';
 import i18next from 'i18next';
+import { Formik } from 'formik';
 import { asyncActions } from '../../slices';
-
-const actionCreators = {
-  removeChannel: asyncActions.removeChannel,
-};
+import SubmitButton from '../SubmitButton';
 
 const Remove = (props) => {
-  const {
-    onHide, modalInfo, removeChannel,
-  } = props;
+  const { onHide, modalInfo } = props;
+  const { removeChannel } = asyncActions;
   const { item } = modalInfo;
+  const dispatch = useDispatch();
 
-  const onSubmit = () => {
-    removeChannel({ id: item.id });
+  const onSubmit = async () => {
+    await dispatch(removeChannel({ id: item.id }));
     onHide();
   };
 
@@ -40,7 +38,21 @@ const Remove = (props) => {
             </div>
             <div className="modal-footer">
               <button onClick={onHide} type="button" className="btn btn-secondary">{i18next.t('close')}</button>
-              <button onClick={onSubmit} type="button" className="btn btn-danger">{i18next.t('remove')}</button>
+              <Formik
+                initialValues={{}}
+                onSubmit={onSubmit}
+              >
+                {({ isSubmitting, handleSubmit }) => (
+                  <form onSubmit={handleSubmit}>
+                    <SubmitButton
+                      isSubmitting={isSubmitting}
+                      spinnerValue={i18next.t('removing')}
+                      sendValue={i18next.t('remove')}
+                      className="btn btn-danger"
+                    />
+                  </form>
+                )}
+              </Formik>
             </div>
           </div>
         </div>
@@ -51,4 +63,4 @@ const Remove = (props) => {
   return vdom;
 };
 
-export default connect(null, actionCreators)(Remove);
+export default Remove;
