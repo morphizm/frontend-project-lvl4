@@ -32,11 +32,6 @@ const slice = createSlice({
   },
 });
 
-const {
-  fetchChannelSuccess,
-  removeChannelSuccess, renameChannelSuccess,
-} = slice.actions;
-
 export const addNewChannel = (data) => async () => {
   await axios.post(routes.channelsPath(), {
     data: {
@@ -55,24 +50,6 @@ export const renameChannel = (data) => async () => {
     data: {
       attributes: data,
     },
-  });
-};
-
-export const subscribeOnNewChannel = (socket) => async (dispatch) => {
-  socket.on('newChannel', ({ data }) => {
-    dispatch(fetchChannelSuccess({ channel: data.attributes }));
-  });
-};
-
-export const subscribeOnDeleteChannel = (socket) => async (dispatch) => {
-  socket.on('removeChannel', ({ data }) => {
-    dispatch(removeChannelSuccess({ id: data.id }));
-  });
-};
-
-export const subscribeOnRenameChannel = (socket) => async (dispatch) => {
-  socket.on('renameChannel', ({ data }) => {
-    dispatch(renameChannelSuccess({ channel: data.attributes }));
   });
 };
 

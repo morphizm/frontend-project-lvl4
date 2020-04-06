@@ -9,7 +9,7 @@ import { asyncActions } from '../../slices';
 import SubmitButton from '../SubmitButton';
 
 const channelSchema = yup.object().shape({
-  channel: yup.string().trim().required(() => i18next.t('required')),
+  channel: yup.string().trim().required(() => 'required'),
 });
 
 const Add = (props) => {
@@ -22,7 +22,7 @@ const Add = (props) => {
       await dispatch(addNewChannel({ name: values.channel }));
       onHide();
     } catch {
-      actions.setErrors({ channel: i18next.t('channelAddFail') });
+      actions.setErrors({ channel: 'channelAddFail' });
     }
   };
 
@@ -70,7 +70,7 @@ const Add = (props) => {
                           value={values.channel}
                         />
                         <div className="invalid-feedback">
-                          {errors.channel}
+                          {i18next.t(errors.channel)}
                         </div>
                       </div>
                       <div className="modal-footer">

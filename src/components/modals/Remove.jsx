@@ -36,7 +36,7 @@ const Remove = (props) => {
             <div className="modal-body">
               {i18next.t('sure')}
             </div>
-            <div className="modal-footer">
+            <div className="modal-footer d-flex">
               <button onClick={onHide} type="button" className="btn btn-secondary">{i18next.t('close')}</button>
               <Formik
                 initialValues={{}}
@@ -48,7 +48,7 @@ const Remove = (props) => {
                       isSubmitting={isSubmitting}
                       spinnerValue={i18next.t('removing')}
                       sendValue={i18next.t('remove')}
-                      className="btn btn-danger"
+                      className="btn btn-danger valid"
                     />
                   </form>
                 )}

@@ -9,7 +9,7 @@ import { asyncActions } from '../../slices';
 import SubmitButton from '../SubmitButton';
 
 const channelSchema = yup.object().shape({
-  channel: yup.string().trim().required(() => i18next.t('required')),
+  channel: yup.string().trim().required(() => 'required'),
 });
 
 const Rename = (props) => {
@@ -23,7 +23,7 @@ const Rename = (props) => {
       await dispatch(renameChannel({ name: values.channel, id: item.id }));
       onHide();
     } catch {
-      actions.setErrors({ channel: i18next.t('channelRenameFail') });
+      actions.setErrors({ channel: 'channelRenameFail' });
     }
   };
 
@@ -76,7 +76,7 @@ const Rename = (props) => {
                           value={values.channel}
                         />
                         <div className="invalid-feedback">
-                          {errors.channel}
+                          {i18next.t(errors.channel)}
                         </div>
                       </div>
                     </div>

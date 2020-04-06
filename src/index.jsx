@@ -18,32 +18,33 @@ import '../assets/application.scss';
 import reducer, { actions, setupState } from './slices';
 import makeUser from './user';
 
-if (process.env.NODE_ENV !== 'production') {
-  localStorage.debug = 'chat:*';
-}
+export default () => {
+  if (process.env.NODE_ENV !== 'production') {
+    localStorage.debug = 'chat:*';
+  }
 
-i18next.init({
-  lng: 'en',
-  resources,
-});
+  i18next.init({
+    lng: 'en',
+    resources,
+  });
 
-const socket = io();
+  const socket = io();
+  const store = configureStore({
+    reducer,
+  });
 
-const store = configureStore({
-  reducer,
-});
+  store.dispatch(setupState(gon));
+  store.dispatch(actions.subscribeOnNewMessage(socket));
+  store.dispatch(actions.subscribeOnNewChannel(socket));
+  store.dispatch(actions.subscribeOnDeleteChannel(socket));
+  store.dispatch(actions.subscribeOnRenameChannel(socket));
 
-store.dispatch(setupState(gon));
-store.dispatch(actions.subscribeOnNewMessage(socket));
-store.dispatch(actions.subscribeOnNewChannel(socket));
-store.dispatch(actions.subscribeOnDeleteChannel(socket));
-store.dispatch(actions.subscribeOnRenameChannel(socket));
-
-render(
-  <Provider store={store}>
-    <Context.Provider value={{ user: makeUser() }}>
-      <App />
-    </Context.Provider>
-  </Provider>,
-  document.getElementById('chat'),
-);
+  render(
+    <Provider store={store}>
+      <Context.Provider value={{ user: makeUser() }}>
+        <App />
+      </Context.Provider>
+    </Provider>,
+    document.getElementById('chat'),
+  );
+};

@@ -9,7 +9,7 @@ import Context from '../context';
 import SubmitButton from './SubmitButton';
 
 const messageSchema = yup.object().shape({
-  message: yup.string().trim().required(() => i18next.t('required')),
+  message: yup.string().trim().required(() => 'required'),
 });
 
 const NewFormMessage = () => {
@@ -24,14 +24,14 @@ const NewFormMessage = () => {
       await dispatch(sendMessage({ ...values, userName: user.name, channelId: currentChannel.id }));
       resetForm();
     } catch {
-      setErrors({ message: i18next.t('messageFail') });
+      setErrors({ message: 'messageFail' });
     }
   };
 
   const vdom = (
     <Formik initialValues={{ message: '' }} onSubmit={handleSendMessage} validationSchema={messageSchema}>
       {({
-        isSubmitting, errors, touched, resetForm, handleChange, values,
+        isSubmitting, errors, resetForm, handleChange, values,
       }) => {
         const messageRef = useRef();
         useEffect(() => {
@@ -42,7 +42,7 @@ const NewFormMessage = () => {
         }, [currentChannel]);
         const fieldClassName = cn({
           'form-control': true,
-          'is-invalid': errors.message && touched.message,
+          'is-invalid': errors.message,
         });
         return (
           <Form className="form-row align-self-end flex-nowrap">
@@ -57,7 +57,7 @@ const NewFormMessage = () => {
                 value={values.message}
               />
               <div className="invalid-feedback">
-                {errors.message}
+                {i18next.t(errors.message)}
               </div>
             </div>
             <div>

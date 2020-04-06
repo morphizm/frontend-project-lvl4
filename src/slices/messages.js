@@ -34,22 +34,12 @@ const slice = createSlice({
   },
 });
 
-const {
-  fetchMessageSuccess,
-} = slice.actions;
-
 export const sendMessage = (data) => async () => {
   const { channelId } = data;
   await axios.post(routes.channelMessagesPath(channelId), {
     data: {
       attributes: _.omit(data, 'channelId'),
     },
-  });
-};
-
-export const subscribeOnNewMessage = (socket) => async (dispatch) => {
-  socket.on('newMessage', ({ data }) => {
-    dispatch(fetchMessageSuccess({ message: data.attributes }));
   });
 };
 
